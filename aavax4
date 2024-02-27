@@ -1,0 +1,44 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.18;
+
+import "@openzeppelin/contracts@4.9/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts@4.9/access/Ownable.sol";
+
+contract DegenToken is ERC20, Ownable {
+
+    uint256 public constant CHICKENJOY_PRICE = 20; 
+    uint256 public constant JOLLYHOTDOG_PRICE = 10;
+
+    mapping(address => uint256) public userOrders; 
+
+    constructor() ERC20("Degen", "DGN") {}
+
+    function mint(address to, uint256 amount) public onlyOwner {
+        _mint(to, amount);
+    }
+
+    function burn(uint256 amount) public {
+        _burn(msg.sender, amount);
+    }
+
+    function orderChickenJoy() public {
+        require(balanceOf(msg.sender) >= CHICKENJOY_PRICE, "Insufficient balance to order ChickenJoy");
+        userOrders[msg.sender] += CHICKENJOY_PRICE; 
+        _burn(msg.sender, CHICKENJOY_PRICE); 
+    }
+
+    function orderJollyHotdog() public {
+        require(balanceOf(msg.sender) >= JOLLYHOTDOG_PRICE, "Insufficient balance to order JollyHotdog");
+        userOrders[msg.sender] += JOLLYHOTDOG_PRICE; 
+        _burn(msg.sender, JOLLYHOTDOG_PRICE); 
+    }
+
+    function getUserOrder(address user) public view returns (uint256) {
+        return userOrders[user]; 
+    }
+
+    function transfer(address to, uint256 amount) public override returns (bool) {
+        _transfer(_msgSender(), to, amount);
+        return true;
+    }
+}
