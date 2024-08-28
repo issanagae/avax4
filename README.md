@@ -5,6 +5,7 @@
 
 This is a Solidity smart contract named `DegenToken` that implements an ERC20 token called "Degen". It provides functionalities for minting, burning, ordering ChickenJoy, ordering JollyHotdog, checking user orders, and transferring tokens. The contract defines constant prices for ChickenJoy and JollyHotdog.
 
+
 ### Contract Details
 
 - **Name:** DegenToken
